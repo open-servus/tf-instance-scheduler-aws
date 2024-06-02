@@ -1,30 +1,4 @@
-resource "aws_servicecatalogappregistry_application" "app_registry968496_a3" {
-  description = join("", ["Service Catalog application to track and manage all your resources for the solution ", local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["SolutionName"]])
-  name        = join("-", [local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["AppRegistryApplicationName"], data.aws_region.current.name, data.aws_caller_identity.current.account_id, local.stack_name])
-  // CF Property(Tags) = {
-  //   Solutions:ApplicationType = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ApplicationType"]
-  //   Solutions:SolutionID = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ID"]
-  //   Solutions:SolutionName = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["SolutionName"]
-  //   Solutions:SolutionVersion = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["Version"]
-  // }
-}
 
-resource "aws_servicecatalogappregistry_application" "app_registry_default_application_attributes15279635" {
-  // CF Property(Attributes) = {
-  //   applicationType = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ApplicationType"]
-  //   version = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["Version"]
-  //   solutionID = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ID"]
-  //   solutionName = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["SolutionName"]
-  // }
-  description = "Attribute group for solution information"
-  name        = join("", ["attgroup-", join("-", [data.aws_region.current.name, local.stack_name])])
-  // CF Property(Tags) = {
-  //   Solutions:ApplicationType = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ApplicationType"]
-  //   Solutions:SolutionID = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["ID"]
-  //   Solutions:SolutionName = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["SolutionName"]
-  //   Solutions:SolutionVersion = local.mappings["AppRegistryForInstanceSchedulerSolution25A90F05"]["Data"]["Version"]
-  // }
-}
 
 resource "aws_cloudwatch_log_group" "scheduler_log_group" {
   name              = join("", [local.stack_name, "-logs"])
@@ -193,10 +167,10 @@ resource "aws_lambda_function" "main" {
       APP_NAMESPACE                      = var.namespace
       SCHEDULER_ROLE_NAME                = local.mappings["mappings"]["SchedulerRole"]["Name"]
       ENABLE_SCHEDULE_HUB_ACCOUNT        = local.mappings["mappings"]["TrueFalse"][var.schedule_lambda_account]
-      ENABLE_EC2_SSM_MAINTENANCE_WINDOWS = local.mappings["mappings"]["TrueFalse"][var.enable_ssm_maintenance_windows]
+      ENABLE_EC2_SSM_MAINTENANCE_WINDOWS = "False"
       START_TAGS                         = var.started_tags
       STOP_TAGS                          = var.stopped_tags
-      ENABLE_AWS_ORGANIZATIONS           = local.mappings["mappings"]["TrueFalse"][var.using_aws_organizations]
+      ENABLE_AWS_ORGANIZATIONS           = "False"
       DDB_TABLE_NAME                     = aws_dynamodb_table.state_table.arn
       CONFIG_TABLE                       = aws_dynamodb_table.config_table.arn
       MAINTENANCE_WINDOW_TABLE           = aws_dynamodb_table.maintenance_window_table.arn

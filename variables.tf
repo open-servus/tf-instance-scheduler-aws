@@ -46,12 +46,6 @@ variable "trace" {
   default     = "No"
 }
 
-variable "enable_ssm_maintenance_windows" {
-  description = "Enable the solution to load SSM Maintenance Windows, so that they can be used for EC2 instance Scheduling."
-  type        = string
-  default     = "No"
-}
-
 variable "tag_name" {
   description = "Name of tag to use for associating instance schedule schemas with service instances."
   type        = string
@@ -67,17 +61,6 @@ variable "default_timezone" {
 variable "regions" {
   description = "List of regions in which instances should be scheduled, leave blank for current region only."
   type        = list(string)
-}
-
-variable "using_aws_organizations" {
-  description = "Use AWS Organizations to automate spoke account registration."
-  type        = string
-  default     = "No"
-}
-
-variable "principals" {
-  description = "(Required) If using AWS Organizations, provide the Organization ID. Eg. o-xxxxyyy. Else, provide a comma separated list of spoke account ids to schedule. Eg.: 1111111111, 2222222222 or {param: ssm-param-name}"
-  type        = string
 }
 
 variable "namespace" {
